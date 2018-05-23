@@ -24,6 +24,7 @@ import * as faIcons from '../helpers/faIconLibrary'
 import AlertsController from './AlertsController'
 import apiService from '../services/api'
 import Banner from './Banner'
+import ErrorBoundary from './ErrorBoundary'
 import Head from './Head'
 
 
@@ -182,18 +183,28 @@ export default (Component, reduxOptions = {}, authenticationRequired = false) =>
     render () {
       return (
         <div role="application">
+
           <input
             hidden
             id="application-banner-control"
             type="checkbox" />
 
-          <Head />
+          <ErrorBoundary>
+            <Head />
+          </ErrorBoundary>
 
-          <Banner path={this.props.asPath} />
+          <ErrorBoundary>
+            <Banner path={this.props.asPath} />
+          </ErrorBoundary>
 
-          <Component {...this.props} />
+          <ErrorBoundary>
+            <Component {...this.props} />
+          </ErrorBoundary>
 
-          <AlertsController />
+          <ErrorBoundary>
+            <AlertsController />
+          </ErrorBoundary>
+
         </div>
       )
     }
